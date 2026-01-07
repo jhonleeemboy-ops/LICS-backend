@@ -11,10 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lawyer_recommendations', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+    Schema::create('lawyer_recommendations', function (Blueprint $table) {
+    $table->id();
+    $table->foreignId('chat_session_id')->constrained()->cascadeOnDelete();
+    $table->foreignId('lawyer_id')->constrained('users')->cascadeOnDelete();
+    $table->foreignId('legal_category_id')->constrained()->cascadeOnDelete();
+    $table->timestamps();
+    });
+
     }
 
     /**

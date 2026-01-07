@@ -4,27 +4,24 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Models\LawyerProfile;
 use Illuminate\Http\Request;
 
 class LawyerRecommendationController extends Controller
 {
-    /**
-     * Recommend lawyers based on legal category
-     */
     public function recommend(Request $request)
     {
         $request->validate([
-            'category_name' => 'required|string',
+            'legal_category_id' => 'required|exists:legal_categories,id',
         ]);
 
-        // Find lawyers whose specialization matches category
         $lawyers = User::where('role', 'lawyer')
-            ->whereHas('lawyerProfile', function ($query) use ($request) {
-                $query->where('specialization', 'LIKE', '%' . $request->category_name . '%')
-                      ->where('availability', 'available');
+            ->whereHas('legalCategories', function ($query) use ($request) {
+                $query->where('legal_category_id', $request->legal_category_id);
             })
-            ->with('lawyerProfile')
+            ->whereHas('lawyerProfile', function ($query) {
+                $query->where('availability', 'available');
+            })
+            ->with(['lawyerProfile', 'legalCategories'])
             ->get();
 
         return response()->json([

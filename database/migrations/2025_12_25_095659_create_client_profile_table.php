@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('client_profiles', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
-    $table->string('phone')->nullable();
-    $table->text('address')->nullable();
-    $table->timestamps();
-     });
+        Schema::create('client_profiles', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
+            $table->string('phone')->nullable();
+            $table->text('address')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('client_profile');
+        Schema::dropIfExists('client_profiles');
     }
 };

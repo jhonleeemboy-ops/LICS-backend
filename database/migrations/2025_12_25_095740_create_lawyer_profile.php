@@ -11,14 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-    Schema::create('lawyer_profiles', function (Blueprint $table) {
-    $table->id();
-    $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
-    $table->string('specialization');
-    $table->string('license_no')->unique();
-    $table->decimal('availability', 3, 1)->nullable();
-    $table->timestamps();
-});
+        Schema::create('lawyer_profiles', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnDelete();
+            $table->string('specialization');
+            $table->string('license_no')->unique();
+            $table->decimal('availability', 3, 1)->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lawyer_profile');
+        Schema::dropIfExists('lawyer_profiles');
     }
 };

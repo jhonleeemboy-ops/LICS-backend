@@ -13,11 +13,19 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Add Sanctum middleware for API
+        // Add CORS + Sanctum stateful middleware for API
         $middleware->api(prepend: [
+            \Illuminate\Http\Middleware\HandleCors::class,
             \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
         ]);
-        
+
+        // ✅ Disable CSRF checks for all /api/* routes
+        $middleware->validateCsrfTokens(
+            except: [
+                'api/*',
+            ]
+        );
+
         // Your custom middleware aliases
         $middleware->alias([
             'role' => RoleMiddleware::class,

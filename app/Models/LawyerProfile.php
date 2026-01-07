@@ -8,9 +8,13 @@ class LawyerProfile extends Model
 {
     protected $fillable = [
         'user_id',
-        'license_number',
+        'license_no',       // matches migration column
         'specialization',
-        'experience_years',
+        'availability',     // optional, if you want mass assignment
+    ];
+
+    protected $casts = [
+        'availability' => 'decimal:1',
     ];
 
     public function user()
@@ -18,4 +22,3 @@ class LawyerProfile extends Model
         return $this->belongsTo(User::class);
     }
 }
-
